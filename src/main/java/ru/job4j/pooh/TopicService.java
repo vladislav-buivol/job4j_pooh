@@ -1,8 +1,14 @@
 package ru.job4j.pooh;
 
-public class TopicService implements Service {
+import ru.job4j.pooh.responses.TopicResponses;
+
+public class TopicService extends PoohService implements Service {
+    public TopicService() {
+        super(new TopicResponses());
+    }
+
     @Override
     public Resp process(Req req) {
-        return null;
+        return super.process(req);
     }
 }
