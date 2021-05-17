@@ -14,6 +14,7 @@ public class TopicResponses implements ResponseHolder {
         return queue;
     }
 
+    @Override
     public void add(Req req, Resp resp) {
         queue.putIfAbsent(req.name(), new ConcurrentHashMap<>());
         queue.get(req.name()).putIfAbsent(req.id(), new ConcurrentLinkedQueue<>());
@@ -21,11 +22,11 @@ public class TopicResponses implements ResponseHolder {
         responses.offer(resp);
     }
 
-    public boolean contains(Req req) {
-        return !(queue.get(req.name()) == null) && queue.get(req.name()).containsKey(req.id()) && queue.get(req.name()).get(req.id()).size() != 0;
-    }
-
+    @Override
     public Resp poll(Req req) {
-        return queue.get(req.name()).get(req.id()).poll();
+        if (queue.get(req.name()) != null && queue.get(req.name()).get(req.id()) != null) {
+            return queue.get(req.name()).get(req.id()).poll();
+        }
+        return null;
     }
 }

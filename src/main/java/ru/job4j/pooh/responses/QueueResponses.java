@@ -20,12 +20,10 @@ public class QueueResponses implements ResponseHolder {
     }
 
     @Override
-    public boolean contains(Req req) {
-        return !(queue.get(req.name()) == null) && queue.get(req.name()).size() != 0;
-    }
-
-    @Override
     public Resp poll(Req req) {
-        return queue.get(req.name()).poll();
+        if (queue.get(req.name()) != null) {
+            return queue.get(req.name()).poll();
+        }
+        return null;
     }
 }

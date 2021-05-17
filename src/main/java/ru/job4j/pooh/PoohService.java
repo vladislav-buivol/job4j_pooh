@@ -14,9 +14,8 @@ public class PoohService implements Service {
     public Resp process(Req req) {
         Resp resp;
         if (req.method().equals("GET")) {
-            if (responses.contains(req)) {
-                resp = responses.poll(req);
-            } else {
+            resp = responses.poll(req);
+            if (resp == null) {
                 resp = Resp.of(req, STATUS_NOT_FOUND.getCode());
             }
         } else {
